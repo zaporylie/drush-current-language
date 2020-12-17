@@ -1,0 +1,15 @@
+{
+    "name": "zaporylie/drush-current-language",
+    "description": "Makes sure the current language is correctly resolved and translation_manager knows of it.",
+    "type": "drupal-drush",
+    "require": {
+        "drush/drush": "~9||~10"
+    },
+    "license": "GPL-2.0+",
+    "authors": [
+        {
+            "name": "Jakub Piasecki",
+            "email": "jakub@piaseccy.pl"
+        }
+    ]
+}
