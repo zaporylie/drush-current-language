@@ -18,7 +18,7 @@ class CurrentLanguageCommands extends DrushCommands {
    * @hook pre-command *
    */
   public function preCommand(CommandData $commandData) {
-    // Drupal must be fully bootstraped in order to use this validation.
+    // Drupal must be fully bootstrapped in order to use this validation.
     $boot_manager = Drush::bootstrapManager();
     if (!$boot_manager->hasBootstrapped(DRUSH_BOOTSTRAP_DRUPAL_FULL)) {
       return;
