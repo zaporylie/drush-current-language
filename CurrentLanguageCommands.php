@@ -6,6 +6,7 @@ use Consolidation\AnnotatedCommand\CommandData;
 use Drupal\language\ConfigurableLanguageManagerInterface;
 use Drush\Commands\DrushCommands;
 use Drush\Drush;
+use Symfony\Component\DependencyInjection\Exception\ServiceNotFoundException;
 
 /**
  * Ensures the current language is in use.
@@ -23,10 +24,16 @@ class CurrentLanguageCommands extends DrushCommands {
     if (!$boot_manager->hasBootstrapped(DRUSH_BOOTSTRAP_DRUPAL_FULL)) {
       return;
     }
-    /** @var \Drupal\Core\Language\LanguageManagerInterface $languageManager */
-    $languageManager = \Drupal::service('language_manager');
-    /** @var \Drupal\language\LanguageNegotiatorInterface $negotiator */
-    $negotiator = \Drupal::service('language_negotiator');
+    try {
+      /** @var \Drupal\Core\Language\LanguageManagerInterface $languageManager */
+      $languageManager = \Drupal::service('language_manager');
+      /** @var \Drupal\language\LanguageNegotiatorInterface $negotiator */
+      $negotiator = \Drupal::service('language_negotiator');
+    }
+    catch (ServiceNotFoundException $exception) {
+      // If we do not have these services, this command is not really useful.
+      return;
+    }
     $negotiator->setCurrentUser(\Drupal::currentUser());
 
     if ($languageManager instanceof ConfigurableLanguageManagerInterface) {
